@@ -20,6 +20,7 @@ def get_event(id):
     event = next((e for e in events if e.id == id), None)
     return jsonify(event.to_dict()) if event else ("Event not found", 404)
 
+@app.route("/events", methods=["POST"])
 def create_event():
     data = request.get_json()
     new_id = max((e.id for e in events), default=0) + 1
@@ -27,6 +28,7 @@ def create_event():
     events.append(new_event)
     return jsonify(new_event.to_dict()), 201
 
+@app.route("/events/<int:id>", methods=["PATCH"])
 def update_event(id):
     data = request.get_json()
     event = next((e for e in events if e.id == id), None)
